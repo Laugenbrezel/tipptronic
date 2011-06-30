@@ -49,35 +49,49 @@ public class LeagueHomeTest {
     @Test
     public void testSave() throws Exception {
         League newLeague = leagueHome.getNewLeague();
-        newLeague.setName("Super League");
+        newLeague.setName("Super League 2");
         leagueHome.save();
         assertNotNull(newLeague.getId());
         log.info(newLeague.getName() + " was persisted with id " + newLeague.
                 getId());
     }
 
+    @Test(expected = Exception.class)
+    public void testSaveUnique() {
+        League newLeague = leagueHome.getNewLeague();
+        newLeague.setName("Super League");
+        leagueHome.save();
+        assertNotNull(newLeague.getId());
+        
+        League newLeagueTwo = leagueHome.getNewLeague();
+        newLeagueTwo.setName("Super League");
+        leagueHome.save();
+    }
+
     @Test
     public void testSaveWithSeason() throws Exception {
         League newLeague = leagueHome.getNewLeague();
-        newLeague.setName("Super League 2");
-        
+        newLeague.setName("Super League 3");
+
         Season newSeason = new Season();
-        Calendar cal = GregorianCalendar.getInstance();        
+        Calendar cal = GregorianCalendar.getInstance();
         newSeason.setStartDate(cal.getTime());
         cal.roll(Calendar.YEAR, true);
         newSeason.setEndDate(cal.getTime());
         newLeague.addSeason(newSeason);
-        
+
         leagueHome.save();
         assertNotNull(newLeague.getId());
         log.info(newLeague.getName() + " was persisted with id " + newLeague.
                 getId());
         assertNotNull(newLeague.getSeasons());
-        assertTrue(newLeague.getSeasons().size() == 1);
+        assertTrue(newLeague.getSeasons().
+                size() == 1);
         for (Season persSeason : newLeague.getSeasons()) {
             assertNotNull(persSeason.getLeague());
             assertSame(newLeague, persSeason.getLeague());
-            assertTrue(persSeason.getStartDate().before(persSeason.getEndDate()));
+            assertTrue(persSeason.getStartDate().
+                    before(persSeason.getEndDate()));
         }
     }
 

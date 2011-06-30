@@ -42,9 +42,10 @@ public class LeagueHome {
       return instance;
    }
 
-   public void save() throws Exception {
+   public void save() {
       log.info("Saving " + instance.getName());
       em.persist(instance);
+      em.flush();
       leagueEventSrc.fire(instance);
       initNewInstance();
    }

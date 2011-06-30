@@ -18,6 +18,8 @@ body {
     width: 225px;
     float: right;
     border: 1px solid #666666;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
     background: #EAECEE;
     padding: 0 15px 5px 15px;
 }
